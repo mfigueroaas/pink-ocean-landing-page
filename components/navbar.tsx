@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react"
 import Link from "next/link"
+import Image from "next/image"
 import { Search, User, ShoppingBag, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
@@ -29,7 +30,15 @@ export function Navbar() {
     <header className={`sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md transition-shadow duration-300 ${isScrolled ? "shadow-sm" : ""}`}>
       <div className="container mx-auto flex h-18 items-center justify-between px-4 lg:px-8">
         {/* Logo */}
-        <Link href="/" className="flex items-center">
+        <Link href="/" className="flex items-center gap-2">
+          <Image
+            src="/logo-pink-ocean.svg"
+            alt="Logo Pink Ocean"
+            width={30}
+            height={30}
+            className="h-7 w-7 rounded-full"
+            priority
+          />
           <span className="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-foreground italic">
             Pink Ocean
           </span>

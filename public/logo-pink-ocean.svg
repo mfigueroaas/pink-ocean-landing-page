@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="128" height="128" viewBox="0 0 128 128" fill="none">
+  <defs>
+    <linearGradient id="po-grad" x1="12" y1="12" x2="116" y2="116" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F3A8C1"/>
+      <stop offset="1" stop-color="#E46F9D"/>
+    </linearGradient>
+  </defs>
+  <circle cx="64" cy="64" r="56" fill="url(#po-grad)"/>
+  <circle cx="64" cy="64" r="50" stroke="white" stroke-opacity="0.55" stroke-width="2"/>
+  <path d="M35 46H62C72.5 46 81 54.5 81 65C81 75.5 72.5 84 62 84H35V46ZM45 56V74H61.5C66.7 74 71 70.2 71 65C71 59.8 66.7 56 61.5 56H45Z" fill="white"/>
+  <path d="M96 65C96 76.6 86.6 86 75 86C63.4 86 54 76.6 54 65C54 53.4 63.4 44 75 44C86.6 44 96 53.4 96 65ZM86 65C86 58.9 81.1 54 75 54C68.9 54 64 58.9 64 65C64 71.1 68.9 76 75 76C81.1 76 86 71.1 86 65Z" fill="white" fill-opacity="0.92"/>
+</svg>

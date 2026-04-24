@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import Link from "next/link"
-import { Search, User, ShoppingBag, Menu, X } from "lucide-react"
+import { Search, User, ShoppingBag, Menu } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet"
 
@@ -15,13 +15,22 @@ const navLinks = [
 
 export function Navbar() {
   const [isOpen, setIsOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 10)
+    }
+    window.addEventListener("scroll", handleScroll)
+    return () => window.removeEventListener("scroll", handleScroll)
+  }, [])
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
-      <div className="container mx-auto flex h-16 items-center justify-between px-4 lg:px-8">
+    <header className={`sticky top-0 z-50 w-full bg-white/80 backdrop-blur-md transition-shadow duration-300 ${isScrolled ? "shadow-sm" : ""}`}>
+      <div className="container mx-auto flex h-18 items-center justify-between px-4 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center">
-          <span className="font-serif text-2xl font-semibold tracking-tight text-foreground">
+          <span className="font-serif text-3xl md:text-4xl font-semibold tracking-tight text-foreground italic">
             Pink Ocean
           </span>
         </Link>

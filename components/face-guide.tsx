@@ -42,15 +42,11 @@ export function FaceGuide() {
           {faceTypes.map((face, index) => (
             <div
               key={index}
-              className="group flex flex-col items-center text-center p-6 rounded-2xl bg-background border border-border/40 transition-all duration-300 hover:shadow-lg hover:border-primary/30 cursor-pointer"
+              className="group flex flex-col items-center text-center p-6 rounded-2xl bg-slate-50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 cursor-pointer"
             >
-              {/* Face Shape Circle */}
-              <div className="w-24 h-24 md:w-28 md:h-28 rounded-full overflow-hidden bg-secondary mb-4 ring-2 ring-transparent group-hover:ring-primary/50 transition-all">
-                <img
-                  src={face.image}
-                  alt={`Rostro ${face.name}`}
-                  className="w-full h-full object-cover"
-                />
+              {/* Placeholder Icon Circle */}
+              <div className="w-20 h-20 md:w-24 md:h-24 rounded-full border-2 border-dashed border-primary/40 mb-4 flex items-center justify-center bg-white group-hover:border-primary transition-colors">
+                <span className="text-primary/40 text-xs">Icono</span>
               </div>
               <h3 className="font-serif text-lg font-medium text-foreground mb-2">{face.name}</h3>
               <p className="text-sm text-muted-foreground text-pretty">{face.description}</p>

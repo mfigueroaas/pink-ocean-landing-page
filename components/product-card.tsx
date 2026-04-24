@@ -1,14 +1,17 @@
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 
 interface ProductCardProps {
+  slug: string
   name: string
   price: string
   image: string
+  category: string
   badge?: string
 }
 
-export function ProductCard({ name, price, image, badge }: ProductCardProps) {
+export function ProductCard({ slug, name, price, image, category, badge }: ProductCardProps) {
   return (
     <div className="group relative flex flex-col rounded-2xl border border-border/40 bg-card overflow-hidden transition-all duration-300 hover:shadow-lg hover:border-primary/20 hover:-translate-y-1">
       {/* Image Container */}
@@ -29,10 +32,15 @@ export function ProductCard({ name, price, image, badge }: ProductCardProps) {
       <div className="flex flex-col p-4 gap-3">
         <div className="space-y-1">
           <h3 className="font-serif text-lg font-medium text-card-foreground">{name}</h3>
+          <p className="text-xs uppercase tracking-wide text-muted-foreground">{category}</p>
           <p className="text-base font-semibold text-primary">{price}</p>
         </div>
-        <Button variant="outline" className="w-full rounded-full border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-colors">
-          Ver detalles
+        <Button
+          variant="outline"
+          className="w-full rounded-full border-primary/50 text-primary hover:bg-primary hover:text-primary-foreground transition-colors"
+          asChild
+        >
+          <Link href={`/producto/${slug}`}>Ver detalles</Link>
         </Button>
       </div>
     </div>

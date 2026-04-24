@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import Link from "next/link"
+import { useParams } from "next/navigation"
 import { ArrowLeft, Camera, MessageCircle, Ruler, Minus, Plus } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
@@ -10,13 +11,11 @@ import { Label } from "@/components/ui/label"
 import { Navbar } from "@/components/navbar"
 import { Footer } from "@/components/footer"
 import { WhatsAppFAB } from "@/components/whatsapp-fab"
-
-const productImages = [
-  "/placeholder.svg?height=600&width=600",
-  "/placeholder.svg?height=600&width=600",
-  "/placeholder.svg?height=600&width=600",
-  "/placeholder.svg?height=600&width=600",
-]
+import {
+  formatCatalogPrice,
+  getProductBySlug,
+  getProductGallery,
+} from "@/lib/product-catalog"
 
 const treatments = [
   { id: "clear", name: "Cristales Transparentes", price: 0 },
@@ -25,13 +24,17 @@ const treatments = [
 ]
 
 export default function ProductDetailPage() {
+  const params = useParams<{ slug: string }>()
+  const product = params?.slug ? getProductBySlug(params.slug) : undefined
+  const productImages = product ? getProductGallery(product) : []
+
   const [selectedImage, setSelectedImage] = useState(0)
   const [purchaseType, setPurchaseType] = useState("frame-only")
   const [selectedTreatment, setSelectedTreatment] = useState("clear")
   const [quantity, setQuantity] = useState(1)
   const [prescriptionFile, setPrescriptionFile] = useState<File | null>(null)
 
-  const basePrice = 89990
+  const basePrice = product?.price ?? 0
   const treatmentPrice = treatments.find(t => t.id === selectedTreatment)?.price || 0
   const totalPrice = purchaseType === "with-prescription" ? basePrice + treatmentPrice : basePrice
 
@@ -47,6 +50,27 @@ export default function ProductDetailPage() {
     if (e.target.files && e.target.files[0]) {
       setPrescriptionFile(e.target.files[0])
     }
+  }
+
+  if (!product) {
+    return (
+      <div className="flex min-h-screen flex-col bg-background">
+        <Navbar />
+        <main className="container mx-auto px-4 lg:px-8 py-16 flex-1">
+          <div className="max-w-xl rounded-2xl border border-border/40 bg-card p-8 space-y-4">
+            <h1 className="font-serif text-3xl text-foreground">Producto no encontrado</h1>
+            <p className="text-muted-foreground">
+              No encontramos este modelo en el catalogo actual. Vuelve a la tienda para explorar las fotos cargadas.
+            </p>
+            <Button asChild className="rounded-full">
+              <Link href="/">Volver a la tienda</Link>
+            </Button>
+          </div>
+        </main>
+        <Footer />
+        <WhatsAppFAB />
+      </div>
+    )
   }
 
   return (
@@ -75,7 +99,7 @@ export default function ProductDetailPage() {
               <div className="aspect-square rounded-2xl overflow-hidden bg-slate-50">
                 <img
                   src={productImages[selectedImage]}
-                  alt="Anteojo modelo Aurora"
+                  alt={product.name}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -107,18 +131,17 @@ export default function ProductDetailPage() {
               {/* Title & Price */}
               <div className="space-y-3">
                 <h1 className="font-serif text-3xl md:text-4xl font-semibold text-foreground">
-                  Aurora Rose
+                  {product.name}
                 </h1>
                 <p className="text-3xl font-bold text-primary">
-                  {formatPrice(totalPrice)}
+                  {formatCatalogPrice(totalPrice)}
                 </p>
               </div>
 
               {/* Description */}
               <p className="text-muted-foreground leading-relaxed">
-                Armazón de acetato italiano con un delicado tono rosa empolvado. 
-                Diseño cat-eye moderno que combina elegancia atemporal con estilo contemporáneo. 
-                Ideal para rostros ovalados y corazón.
+                Modelo de la categoria {product.category}. Esta ficha usa tus fotos reales para visualizar color, forma y estilo del marco.
+                Puedes comprar solo armazon o agregar cristales con tratamiento segun tu necesidad.
               </p>
 
               {/* Purchase Type Selector */}
@@ -189,7 +212,7 @@ export default function ProductDetailPage() {
                           >
                             <span className="font-medium">{treatment.name}</span>
                             <span className="text-primary font-semibold">
-                              {treatment.price === 0 ? "Incluido" : `+${formatPrice(treatment.price)}`}
+                              {treatment.price === 0 ? "Incluido" : `+${formatCatalogPrice(treatment.price)}`}
                             </span>
                           </Label>
                         </div>
@@ -269,7 +292,7 @@ export default function ProductDetailPage() {
                   asChild
                 >
                   <a
-                    href="https://wa.me/56912345678?text=Hola%2C%20me%20interesa%20el%20modelo%20Aurora%20Rose"
+                    href={`https://wa.me/56912345678?text=${encodeURIComponent(`Hola, me interesa el modelo ${product.name}`)}`}
                     target="_blank"
                     rel="noopener noreferrer"
                   >

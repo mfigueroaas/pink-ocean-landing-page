@@ -1,30 +1,10 @@
 import { ProductCard } from "@/components/product-card"
-
-const products = [
-  {
-    name: "Modelo Siena",
-    price: "$34.990",
-    image: "/placeholder.svg?height=400&width=400",
-    badge: "Nuevo",
-  },
-  {
-    name: "Modelo Capri",
-    price: "$42.990",
-    image: "/placeholder.svg?height=400&width=400",
-    badge: "Clip On",
-  },
-  {
-    name: "Modelo Portofino",
-    price: "$38.990",
-    image: "/placeholder.svg?height=400&width=400",
-  },
-  {
-    name: "Modelo Amalfi",
-    price: "$45.990",
-    image: "/placeholder.svg?height=400&width=400",
-    badge: "Bestseller",
-  },
-]
+import {
+  catalogCategories,
+  catalogProducts,
+  featuredProducts,
+  formatCatalogPrice,
+} from "@/lib/product-catalog"
 
 export function FavoritesSection() {
   return (
@@ -33,17 +13,28 @@ export function FavoritesSection() {
         {/* Section Header */}
         <div className="text-center mb-12">
           <h2 className="font-serif text-3xl md:text-4xl font-semibold text-foreground mb-4">
-            Los Favoritos
+            Catalogo Pink Ocean
           </h2>
           <p className="text-muted-foreground max-w-2xl mx-auto text-pretty">
-            Descubre los modelos más amados por nuestra comunidad. Cada pieza está diseñada para destacar tu estilo único.
+            Agregamos fotos reales de tus categorias: {catalogCategories.join(", ")}. Explora modelos clip on, de sol opticos y marcos metalicos.
+          </p>
+          <p className="mt-3 text-sm text-muted-foreground">
+            Mostrando {featuredProducts.length} destacados de {catalogProducts.length} productos.
           </p>
         </div>
 
         {/* Products Grid */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-          {products.map((product, index) => (
-            <ProductCard key={index} {...product} />
+          {featuredProducts.map((product) => (
+            <ProductCard
+              key={product.slug}
+              slug={product.slug}
+              name={product.name}
+              price={formatCatalogPrice(product.price)}
+              image={product.image}
+              category={product.category}
+              badge={product.badge}
+            />
           ))}
         </div>
       </div>
